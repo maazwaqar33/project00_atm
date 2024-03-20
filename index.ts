@@ -1,67 +1,97 @@
 #! /usr/bin/env node
 
 import inquirer from 'inquirer';
+import chalkAnimation from 'chalk-animation';
 import chalk from 'chalk';
 
-
-//greeting user with a welcome message
-async function greeting() {
-    console.log(chalk.green('\nWelcome to the Number Guessing Game!'));
-
-        console.log(chalk.bold.hex('#DEADED').bold('Develop By Maaz Ahmed'));
-    
-}
- greeting();
-
-// random number guesing fnction
-async function guessNumber() {
-
-    console.log(chalk.blackBright.bgCyan("\nI'm thinking of a number between 1 to 10. Can you guess it?"))
-    
-    //gnerating random number between 1 t0 10
-    const secretNumber = Math.floor(Math.random() * 10)
-    
-    let attempt = 0
-    
-    let answers;
-    do{
-        answers = await inquirer
-        .prompt([
-            {
-                type: "number",
-                name: "userGuess",
-                message: "enter your number"
-            }
-        ]);
-        if
-        (answers.userGuess <1 || answers.userGuess > 10){
-            console.log(chalk.red.bgWhite("Please enter a number between 1 and 10!"));
-        }
-    }while
-        (answers.userGuess < 1 || answers.userGuess > 10)
-        attempt++  
-    if(answers.userGuess === secretNumber){
-        console.log(`WOooo! you guessed the ${secretNumber} correctly in ${attempt} attempts`);
-    }
-    else{
-        console.log(`Oooops! you guessed worng number the correct number is ${secretNumber}`);
-    }
-
+//sleep function to control the animation duration
+const sleep =()=>{
+    return new Promise ((res)=>{
+        setTimeout(res, 2000)
+    })
+     
 }
 
-// function to re start the game if user wanted
-async function tryAgain() {
-    do{
-        await guessNumber();
-        var askAgain = await inquirer .prompt([
-            {
-                type: "input",
-                name: "userChoice",
-                message: "Do you want to try again? Press 'y' to guess again or 'n' to stop"
-            }
-        ]);
-    }
-    while(askAgain.userChoice === "y" || askAgain.userChoice === "Y" || askAgain.userChoice === "yes" || askAgain.userChoice === "YES")
+
+// welcome message with chalkANimation
+async function welcomeMessage() {
+
+    let title = chalkAnimation.neon("Let's Do some math mate")
+    await sleep();
+    title.stop();
+    console.log(`
+    _____________________
+    |  _________________  |
+    | | JO           0. | |
+    | |_________________| |
+    |  ___ ___ ___   ___  |
+    | | 7 | 8 | 9 | | + | |
+    | |___|___|___| |___| |
+    | | 4 | 5 | 6 | | - | |
+    | |___|___|___| |___| |
+    | | 1 | 2 | 3 | | x | |
+    | |___|___|___| |___| |
+    | | . | 0 | = | | / | |
+    | |___|___|___| |___| |
+    |_____________________|
+    `)
+
+    console.log(chalk.bold.hex('#DEADED').bold('Develop By Maaz Ahmed'));
+}
+await welcomeMessage()
+
+// using inquirer for calculator behaviour and logic
+async function calc_fun() {
+    const answers = await inquirer
+  .prompt([
+    {
+        type: 'list',
+    name: 'calculate',
+    message: 'Choose your Method',
+    choices: ["Addition", "Subtraction", "Multiplication", "Division"]
+},
+{
+    type: "number",
+    name: "fstNum",
+    message: "enter your firstNumber"
+},
+{
+    type: "number",
+    name: "sndNum",
+    message: "enter your secondNumber"
+},
+  ]);
+  if
+  (answers.calculate === "Addition"){
+    console.log(chalk.green(`${answers.fstNum} + ${answers.sndNum} = ${answers.fstNum + answers.sndNum}`));
+  }
+  
+  else if 
+  (answers.calculate === "Subtraction"){
+    console.log(chalk.green(`${answers.fstNum} - ${answers.sndNum} = ${answers.fstNum - answers.sndNum}`));
+  }
+
+  else if 
+  (answers.calculate === "Multiplication"){
+    console.log(chalk.green(`${answers.fstNum} * ${answers.sndNum} = ${answers.fstNum * answers.sndNum}`));
+  }
+  
+  else{
+    console.log(chalk.green(`${answers.fstNum} / ${answers.sndNum} = ${answers.fstNum / answers.sndNum}`));
+  }
 }
 
-tryAgain();
+async function startAgain() {
+    
+    do {
+        await calc_fun();
+        var askAgain = await inquirer
+        .prompt({
+            type:"input",
+            name : "ask",
+            message : "Do you wan to try other methods? press y to continue n to stop "
+        })
+    } while (askAgain.ask === 'y' || askAgain.ask === 'Y' || askAgain.ask === 'yes' || askAgain.ask === 'YES' || askAgain.ask === 'Yes');
+}
+
+startAgain()
