@@ -1,11 +1,11 @@
 {
-  "name": "cmdguessgame",
+  "name": "myatmcli",
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "cmdguessgame": "./index.js"
+    "myatmcli": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
