@@ -1,11 +1,11 @@
 {
-  "name": "myatmcli",
+  "name": "the-atm-cli-cmd",
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "myatmcli": "./index.js"
+    "the-atm-cli-cmd": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
